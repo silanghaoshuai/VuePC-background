@@ -1,13 +1,9 @@
 /*
 商品管理的品牌管理相关接口请求函数的模块
 */
-
 import request from '@/utils/request'  // 相当于ajax
-
 const api_name = '/admin/product/baseTrademark'
-
 export default {
-
   /*
   根据id获取对应的品牌
   */
@@ -26,7 +22,6 @@ export default {
       return request('/admin/product/baseTrademark/getTrademarkList')
     }
   },
-
   /*
   根据id删除对应的品牌
   */
@@ -41,7 +36,6 @@ export default {
   add (trademark) {
     return request.post(`${api_name}/save`, trademark)
   },
-
   /*
   更新品牌
   trademark对象: {id: 2, tmName: '', logoUrl: ''}   需要有id属性
