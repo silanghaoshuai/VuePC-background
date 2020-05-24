@@ -5,7 +5,8 @@
     </el-card>
     <el-card>
       <div v-show="!isShowSpuForm && !isShowSkuForm">
-        <el-button type="primary"  icon="el-icon-plus" style="margin-bottom: 20px">添加SPU</el-button>
+        <el-button type="primary"  icon="el-icon-plus" style="margin-bottom: 20px"
+          @click="showAddSpu">添加SPU</el-button>
         <el-table
           v-loading="loading"
           :data="spuList"
@@ -44,10 +45,6 @@
           @size-change="handleSizeChange"
         />
       </div>
-      <!--
-        一旦使用.sync, 必须是一个动态的变量属性值, 且属性名必须使用:
-        但如果不加:, 传递给子组件的总是false值
-       -->
       <SpuForm ref="spuForm" :visible.sync="isShowSpuForm"></SpuForm>
 
       <SkuForm v-show="isShowSkuForm"></SkuForm>
@@ -82,7 +79,6 @@ export default {
     this.category3Id = 61
     this.getSpuList()
   },
-
   methods: {
     /*
     显示SKU添加的表单界面
@@ -91,12 +87,20 @@ export default {
       this.isShowSkuForm = true
     },
     /*
+    显示SPU的添加界面
+    */
+    showAddSpu () {
+      // 显示SpuForm修改界面
+      this.isShowSpuForm = true
+      // 通知SpuForm请求添加界面初始数据显示
+      this.$refs.spuForm.initLoadAddData()
+    },
+    /*
     显示SPU的修改界面
     */
     showUpdateSpu (id) {
       // 显示SpuForm修改界面
       this.isShowSpuForm = true
-      // 通知SpuForm根据传入的ID请求获取初始显示需要的数据.使用ref来指定取余隐藏
       this.$refs.spuForm.initLoadUpdateData(id)
     },
     /*
@@ -116,6 +120,7 @@ export default {
         this.total = 0
       } else {
         this.category3Id = categoryId
+        // 请求获取分页列表数据
         this.getSpuList()
       }
     },
@@ -140,7 +145,6 @@ export default {
       this.getSpuList(1)
     }
   },
-
   components: {
     SpuForm,
     SkuForm
